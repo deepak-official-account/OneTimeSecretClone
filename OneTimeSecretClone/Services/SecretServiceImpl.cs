@@ -73,7 +73,7 @@ namespace OneTimeSecretClone.Services
             return link;
             }
 
-        public ResponseDto ViewMessage(int secretId, string password)
+        public ResponseDto ViewMessageHandler(int secretId, string password)
             {
             SecretModel secret = GetSecretModelById(secretId);
             ResponseDto response= new ResponseDto();
@@ -89,14 +89,17 @@ namespace OneTimeSecretClone.Services
                 return response;
                 }
 
-            if (IsMessageExpired(secret.CreationDateTime) || secret.IsMessageViewed)
+            if (IsMessageExpired(secret.ExpiryDateTime) || secret.IsMessageViewed)
                 {
                 response.Message = "Secret is either Expired or Already Viewed";
                 return response;
                 }
 
             secret.IsMessageViewed = true;
-            response.Data = secret;
+            this._context.SaveChanges();
+            response.Data = secret.Message;
+            response.Message = "Successful";
+            
             return response;
             }
 

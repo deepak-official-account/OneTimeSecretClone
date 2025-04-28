@@ -26,7 +26,6 @@ namespace OneTimeSecretClone.Controllers
 
 
         [HttpPost]
-      
         public IActionResult GenerateSecretLink(SecretModel secret)
             {
             if (ModelState.IsValid)
@@ -36,6 +35,7 @@ namespace OneTimeSecretClone.Controllers
                 ViewData["link"] = generatedLink;
 
                 }
+            //return RedirectToAction("Index","Secret");
             return View("Index");
             }
 
@@ -45,17 +45,24 @@ namespace OneTimeSecretClone.Controllers
         public IActionResult ViewMessage(int secretId)
             {
             ViewData["SecretId"] = secretId;
-            return View(new ResponseDto()); // send an empty model initially
+            return View(new ResponseDto());
             }
-
 
         [HttpPost]
         public IActionResult ViewMessage(int secretId, string password)
             {
-            ResponseDto response = this._secretService.ViewMessage(secretId,password);
-               return View("ViewMessage",response);
-         
+            ResponseDto response = _secretService.ViewMessageHandler(secretId, password);
+            return View("ViewMessage", response);
             }
+
+        //[HttpPost]
+        //[Route("Secret/ViewMessage/{secretId:int}/{password:alpha}")]
+        //public IActionResult ViewMessage(int secretId, string password)
+        //    {
+        //    ResponseDto response = this._secretService.ViewMessageHandler(secretId,password);
+        //    return View("ViewMessage",response);
+         
+        //    }
         }
     }
     

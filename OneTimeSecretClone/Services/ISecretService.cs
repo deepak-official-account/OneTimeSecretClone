@@ -7,7 +7,7 @@ namespace OneTimeSecretClone.Services
     SecretModel GetSecretModelById(int secretId);
     string GenerateLink(SecretModel secret);
 
-    ResponseDto ViewMessage(int secretId, string password);
+    ResponseDto ViewMessageHandler(int secretId, string password);
 
     }
     }
